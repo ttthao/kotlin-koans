@@ -19,12 +19,28 @@ fun task41(): Nothing = TODO(
         }
 )
 
+// in: https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance
+fun <T, C: MutableCollection<T>> Collection<T>.partitionTo(first: C, second: C, predicate: (T) -> Boolean): Pair<C, C> {
+    for (element in this) {
+        if (predicate(element)) {
+            first.add(element)
+        } else {
+            second.add(element)
+        }
+    }
+    return Pair(first, second);
+}
+
 fun List<String>.partitionWordsAndLines(): Pair<List<String>, List<String>> {
-    task41()
-//    return partitionTo(ArrayList<String>(), ArrayList()) { s -> !s.contains(" ") }
+    return partitionTo(ArrayList<String>(), ArrayList()) { s -> !s.contains(" ") }
 }
 
 fun Set<Char>.partitionLettersAndOtherSymbols(): Pair<Set<Char>, Set<Char>> {
-    task41()
-//    return partitionTo(HashSet<Char>(), HashSet()) { c -> c in 'a'..'z' || c in 'A'..'Z'}
+    return partitionTo(HashSet<Char>(), HashSet()) { c -> c in 'a'..'z' || c in 'A'..'Z'}
 }
+
+// Figure out signature to accept a predicate
+
+// Figure out signature to convert each partitioned collection into another collection
+
+//fun <T, C : MutableCollection<in T>, D : MutableCollection<in T>> Collection<T>.partitionTo(first: C, second: D, predicate: (T) -> Boolean): Pair<C, D> {
